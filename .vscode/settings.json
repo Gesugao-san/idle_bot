@@ -1,9 +1,9 @@
 {
 	"editor.detectIndentation": false,
-	"editor.insertSpaces": false,
+	"editor.insertSpaces": true,
 	"editor.tabSize": 4,
 	"files.encoding": "utf8",
-	"files.eol": "\r\n",
+	"files.eol": "\n",
 	"files.insertFinalNewline": true,
 	"files.trimFinalNewlines": false,
 	"files.trimTrailingWhitespace": true,
@@ -18,4 +18,9 @@
 		"**/.svn": true,
 		"**/CVS": true,
 	},
+	"editor.rulers": [
+		80,
+		125
+    ],
+    "activestate.promptRuntimeCreation": false
 }
