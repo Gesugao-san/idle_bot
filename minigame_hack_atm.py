@@ -10,8 +10,9 @@ roof_len = 0
 allowed_values_roof = [4, 6]
 nums = {
     'exist': [],
-    'not': [],
-    'not_meeted_yet': list(range(0, (9 + 1)))
+    'dub': 4,
+    'not_meeted_yet': list(range(0, (9 + 1))),
+    'not': []
 }
 user_answer = {
     4: [
@@ -35,8 +36,25 @@ user_answer = {
 def line():
     return print('='*10)
 
-def gen_allowed(a = 0, b = 9):
-    return list(range(a, (b + 1))) + ['X', '0', '_']
+def gen_allowed_user(a = 0, b = 9):
+    return list(range(a, (b + 1)))
+
+def gen_allowed_bot(a = 0, b = 9):
+    return ['X', '0', '_']
+
+def check_input_user(data, _list):
+    if data in ['break', 'b', 'stop', 's']:
+        exit(0)
+    if data in list(_list):
+        return True
+    return False
+
+def check_input_bot(data, list):
+    if data in ['break', 'b', 'stop', 's']:
+        exit(0)
+    if data in list(list):
+        return True
+    return False
 
 
 def meet_num(num, list):
@@ -75,22 +93,24 @@ def logic(data1, data2, roof):
         if is_num_not_present(data2_list[pos]):
             num_list_update(i, nums['not'])
         pos += 1
+    nums['dub'] = roof_len - len(nums['exist']) + len(nums['not_meeted_yet'])
     nums['exist'].sort()
     nums['not'].sort()
-    print('user_answer:', user_answer[roof_len])
-    print('nums:', nums)
+    print('Final answer:', ''.join(str(user_answer[roof_len])), '| Numbers:', nums)
     return
 
 
 def main():
     while True:
         try:
-            user_input = input('1. (' + str(roof_len) + ') [b]reak, [s]top> ')
-            if user_input in ['break', 'b', 'stop', 's']:
-                exit(0)
-            bot_answer = input('2. (' + str(roof_len) + ') [b]reak, [s]top> ')
-            if bot_answer in ['break', 'b', 'stop', 's']:
-                exit(0)
+            user_input = input('1. You: ')
+            if not check_input_user(user_input, allowed_values_user):
+                print('Invalid user input', user_input, allowed_values_user)
+                continue
+            bot_answer = input('2. Bot: ')
+            if not check_input_bot(bot_answer, allowed_values_bot):
+                print('Invalid bot input', bot_answer, allowed_values_bot)
+                continue
             logic(user_input, bot_answer, roof_len)
         except KeyboardInterrupt:
             print('\nInterrupted')
@@ -108,7 +128,8 @@ if __name__ == '__main__':
     print('run')
     line()
 
-    allowed_values = gen_allowed()
+    allowed_values_user = gen_allowed_user()
+    allowed_values_bot = gen_allowed_bot()
     print('allowed_values:', allowed_values)
     print('nums:', nums)
 
@@ -118,6 +139,7 @@ if __name__ == '__main__':
         exit(1)
 
     print('input loop started')
+    print('help: for exit print [b]reak, [s]top or press Ctrl+C.')
     main()
 
     line()
